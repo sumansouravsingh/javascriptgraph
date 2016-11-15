@@ -1,54 +1,151 @@
-var h =400;var w =400;
-var arr = {text1:100,text2:300,text3:200,text4:350,text5:400,text6:180,text7:200,text8:100, text9:250, text10:250};
-var obj = JSON.stringify(arr);
-var max=0,sum=0;
-console.log(obj+obj.length);
-var length= Object.keys(arr).length;
-console.log(length);
-for(var i=0;i<length;i++)
-{
-   if(arr[Object.keys(arr)[i]]>max)
-   max = arr[Object.keys(arr)[i]];
-   sum+=arr[Object.keys(arr)[i]]; 
-}
-console.log(Object.keys(arr));
-console.log(Object.keys(arr)[2]);
-console.log(document.getElementById('mycanvas'));
+var arr = {text1:100,text2:300,text3:200,text4:350,text5:400,text6:180,text7:200,text8:100, text9:250, text10:250 };
+histoGram(arr,400,400);
+lineGraph(arr,200,400);
+pieChart(arr,400,400);
 
+function histoGram(arr,w,h)
+{
+   if(w<400)
+      w=400;
+   if(h<400)
+      h=400;
+   var gWidth = 0.8*w;
+   var gHeight = 0.9*h;
+   var gwStart = 0.2*w;
+   var ghStart = 0.1*h;
+   var max=0,sum=0;
+   var length= Object.keys(arr).length;
+   for(var i=0;i<length;i++)
+   {
+      if(arr[Object.keys(arr)[i]]>max)
+      max = arr[Object.keys(arr)[i]];
+      sum+=arr[Object.keys(arr)[i]]; 
+   }
+   var cElem = document.createElement("canvas");
+   cElem.setAttribute("id","barGraph");
+   cElem.setAttribute("height",h);
+   cElem.setAttribute("width",w);
+   document.getElementById('mycanvas').appendChild(cElem);
+   var c = cElem;
+   var ctx = c.getContext("2d");
+   ctx.font = "7px Arial";
+   ctx.strokeStyle="#cccccc";
+   ctx.lineWidth=1;      
+   drawGraphLines(ctx,w,h,arr,length,max);
+   drawHistoGram(ctx,w,h,arr,length,max);
+   ctx.beginPath();
+   ctx.strokeStyle="#000000";
+   ctx.lineWidth=2;      
+   ctx.moveTo(gwStart,0);
+   ctx.lineTo(gwStart,gHeight);
+   ctx.stroke();
+   ctx.closePath();
+   ctx.beginPath();
+   ctx.moveTo(gwStart,gHeight);
+   ctx.lineTo(w,gHeight);
+   ctx.stroke();
+   ctx.closePath();
+   ctx.font = "12px Arial";
+   ctx.fillStyle = "#000000";  
+   ctx.save();
+   ctx.translate(0,h);
+   ctx.rotate(Math.PI/180*-90);
+   ctx.fillText("Y-Axis Text",gWidth/2,0.1*w);
+   ctx.restore();
+   ctx.fillText("X-Axis Text",gWidth/2,h-10);
+}
+
+
+function lineGraph(arr,w,h)
+{
+   if(w<400)
+      w=400;
+   if(h<400)
+      h=400;
+   var gWidth = 0.8*w;
+   var gHeight = 0.9*h;
+   var gwStart = 0.2*w;
+   var ghStart = 0.1*h;
+   var max=0,sum=0;
+   var length= Object.keys(arr).length;
+   for(var i=0;i<length;i++)
+   {
+      if(arr[Object.keys(arr)[i]]>max)
+      max = arr[Object.keys(arr)[i]];
+      sum+=arr[Object.keys(arr)[i]]; 
+   }
+   //Create Canvas Elem
+   var cElem = document.createElement("canvas");
+   cElem.setAttribute("id","meli");
+   cElem.setAttribute("height",h);
+   cElem.setAttribute("width",w);
+   document.getElementById('mycanvas').appendChild(cElem);
+   var c = cElem;
+   var ctx = c.getContext("2d");
+   ctx.font = "7px Arial";
+   ctx.strokeStyle="#cccccc";
+   ctx.lineWidth=1;      
+   drawGraphLines(ctx,w,h,arr,length,max);
+   ctx.lineWidth=2;   
+   drawLineGraph(ctx,w,h,arr,length,max);
+   //Drawing the X and Y lines.
+   ctx.strokeStyle="#000000";
+   ctx.lineWidth=2;      
+   ctx.beginPath();
+   ctx.moveTo(gwStart,0);        //Draw the Y line starting with start coords (0.2*w,0)
+   ctx.lineTo(gwStart,gHeight);  //and end coords (0.2*w,0.9*h) -- x is same since only Y cord changes
+   ctx.stroke();
+   ctx.closePath();
+   ctx.beginPath();
+   ctx.moveTo(gwStart,gHeight);  //Draw the Y line starting with start coords (0.2*w,0.9*h)
+   ctx.lineTo(w,gHeight);        //and end coords (w,0.9*h) -- Y is same since only X coord changes
+   ctx.stroke();
+   ctx.closePath();
+   ctx.font = "12px Arial";
+   ctx.fillStyle = "#000000";  
+   ctx.save();
+   ctx.translate(0,h);           //To draw the text in vertical direction, first translate the canvas by its height
+   ctx.rotate(Math.PI/180*-90);  //Now rotate the canvas by -90 deg.
+   ctx.fillText("Y-Axis Text",gWidth/2,0.1*w);  //Draw the Y-axis text in vertical direction. 
+   ctx.restore();                               //Restore the canvas to its saved state.
+   ctx.fillText("X-Axis Text",gWidth/2,h-10); //Draw the X-axis text.
+}
+
+function pieChart(arr,w,h)
+{
+   if(w<400)
+      w=400;
+   if(h<400)
+      h=400;
+  var max=0,sum=0;
+   var length= Object.keys(arr).length;
+   for(var i=0;i<length;i++)
+   {
+      if(arr[Object.keys(arr)[i]]>max)
+      max = arr[Object.keys(arr)[i]];
+      sum+=arr[Object.keys(arr)[i]]; 
+   }
+   var cElem = document.createElement("canvas");
+   cElem.setAttribute("id","mepi");
+   cElem.setAttribute("height",h);
+   cElem.setAttribute("width",w);
+   document.getElementById('mycanvas').appendChild(cElem);
+   var c = cElem;
+   var ctx = c.getContext("2d");
+   drawPiCircle(ctx,w,h,arr,length,sum);
+}
+
+
+
+/*
 //Bar Graph         
+//Pie Chart
 var cElem = document.createElement("canvas");
-cElem.setAttribute("id","me");
+cElem.setAttribute("id","mepi");
 cElem.setAttribute("height",h);
 cElem.setAttribute("width",w);
 document.getElementById('mycanvas').appendChild(cElem);
-var c = cElem;
-var ctx = c.getContext("2d");
-ctx.beginPath();
-ctx.strokeStyle="#000000";
-ctx.lineWidth=2;      
-ctx.moveTo(36,0);
-ctx.lineTo(36,360);
-ctx.stroke();
-ctx.closePath();
-ctx.beginPath();
-ctx.strokeStyle="#000000";
-ctx.lineWidth=2;      
-ctx.moveTo(36,360);
-ctx.lineTo(400,360);
-ctx.stroke();
-ctx.closePath();
-ctx.font = "7px Arial";
-ctx.strokeStyle="#cccccc";
-ctx.lineWidth=1;      
-drawGraphLines(ctx);
-drawRect(ctx);
-//Pie Chart
-var cElem1 = document.createElement("canvas");
-cElem1.setAttribute("id","mepi");
-cElem1.setAttribute("height",h);
-cElem1.setAttribute("width",w);
-document.getElementById('mycanvas').appendChild(cElem1);
-var d = cElem1;
+var d = cElem;
 var cntxt = d.getContext("2d");
 drawPiCircle(cntxt);
 
@@ -85,115 +182,106 @@ c1.lineWidth=1;
 c1.lineWidth=2;   
 //console.log(arr[Object.keys(arr)[0]]);   
 drawLineGraph(c1);
-
+*/
 //Draw Line Graph
-function drawLineGraph(cd)
+function drawLineGraph(ctx,w,h,arr,length,max)
 {
-   cd.strokeStyle = getRandomColor();
-   cd.fillStyle = getRandomColor();
-   var a1=0.9*w;var a2=0.09*w;
-   var x=a1/length-5;
+   ctx.strokeStyle = getRandomColor();
+   ctx.fillStyle = getRandomColor();
    var j=0;
-   cd.fillText(arr[Object.keys(arr)[0]],x+a2,a1-(arr[Object.keys(arr)[0]]*a1/max)-5);
+   var ghStart = 0.1*h;
+   var gwStart = 0.2*w;
+   var gWidth = 0.8*w;
+   var gHeight = 0.9*h;
+   var a1=0.8*w;var a2=0.1*w;
+   var x=gWidth/length-0.01*w;
+   ctx.fillText(arr[Object.keys(arr)[0]],x+gwStart,gHeight-(arr[Object.keys(arr)[0]]*0.8*h/max)-5);
    for(var i=1;i<length;i++)
    {
-      cd.beginPath();
-      cd.moveTo(x*(i)+a2,a1-(arr[Object.keys(arr)[i-1]]*a1/max));
-      cd.lineTo(x*(i+1)+a2,a1-(arr[Object.keys(arr)[i]]*a1/max));
-      cd.stroke();
-      cd.fillText(arr[Object.keys(arr)[i]],x*(i+1)+a2,a1-(arr[Object.keys(arr)[i]]*a1/max)-5);
-      cd.closePath();
+      ctx.beginPath();
+      ctx.moveTo(x*i+gwStart,gHeight-(arr[Object.keys(arr)[i-1]]*0.8*h/max));
+      ctx.lineTo(x*(i+1)+gwStart,gHeight-(arr[Object.keys(arr)[i]]*0.8*h/max));
+      ctx.stroke();
+      ctx.fillText(arr[Object.keys(arr)[i]],x*(i+1)+gwStart,gHeight-(arr[Object.keys(arr)[i]]*0.8*h/max)-5);
+      ctx.closePath();
       j++;
    }
 
-   /*
-   for(var i=1;i<length;i++)
-   {
-      cd.beginPath();
-      cd.moveTo(36*(j+2),360-(arr[i-1]*360/max));
-      cd.lineTo(36*(j+3),360-(arr[i]*360/max));
-      cd.stroke();
-      cd.fillText(arr[i],36*(j+3)-5,360-(arr[i]*360/max)-5);
-      cd.closePath();
-      j++;
-   }*/
 }
 
 //Draw Pie Chart
-function drawPiCircle(cntxt)
+function drawPiCircle(ctx,w,h,arr,length,sum)
 {
    var tot=0,tot1=0;
    for(var i=0;i<length;i++){
-      cntxt.beginPath();
-      cntxt.moveTo(w/2,h/2);
+      ctx.beginPath();
+      ctx.moveTo(w/2,h/2);
       tot1=tot1+(2*arr[Object.keys(arr)[i]])/sum*Math.PI;
-      cntxt.arc(w/2, h/2, w/2,tot, tot1);
+      if(w<=h)ctx.arc(w/2, h/2, 0.4*w,tot, tot1);
+      else
+         ctx.arc(w/2, h/2, 0.4*h,tot, tot1);
       tot=tot+(2*arr[Object.keys(arr)[i]])/sum*Math.PI;
-      cntxt.fillStyle = getRandomColor();
+      ctx.fillStyle = getRandomColor();
       ctx.lineTo(w/2,h/2);
-      cntxt.fill();
-      cntxt.closePath();
+      ctx.fill();
+      ctx.closePath();
    }
-
-   /*for(var i=0;i<length;i++){
-      cntxt.beginPath();
-      cntxt.moveTo(w/2,h/2);
-      tot1=tot1+(2*arr[i])/sum*Math.PI;
-      cntxt.arc(w/2, h/2, w/2,tot, tot1);
-      tot=tot+(2*arr[i])/sum*Math.PI;
-      cntxt.fillStyle = getRandomColor();
-      ctx.lineTo(w/2,h/2);
-      cntxt.fill();
-      cntxt.closePath();
-   }
-   */
 }
 
 //Drawing the graph lines
-function drawGraphLines(ctx)
+function drawGraphLines(ctx,w,h,arr,length,max)
 {
    var j=0;
-   var a1=0.9*w;var a2=0.09*w;
-   var x=a1/length-5;
+   var ghStart = 0.1*h;
+   var gwStart = 0.2*w;
+   var gWidth = 0.8*w;
+   var gHeight = 0.9*h;
+   var a1=0.8*w;var a2=0.1*w;
+   var x=gWidth/length-0.01*w;
    for(var i=0;i<length;i++)
    {
       ctx.beginPath();
-      ctx.moveTo(x*(i+1)+a2,0);
-      ctx.lineTo(x*(1+i)+a2,a1);
+      ctx.moveTo(gwStart+x*(i+1),ghStart);
+      ctx.lineTo(gwStart+x*(1+i),gHeight);
       ctx.stroke();
-      ctx.fillText(Object.keys(arr)[j],x*(i+1)+a2-7.5,a1+10);
+      ctx.fillText(Object.keys(arr)[j],gwStart+x*(i+1)-7.5,gHeight+10);
       ctx.closePath();
       j++;
    }
    j=0;
-   for(var i=a2;i<=a1;i=i+a2)
+   for(var i=gHeight;i>=ghStart;i=i-ghStart)
    {
       ctx.beginPath();
-      ctx.moveTo(a2,i);
+      ctx.moveTo(gwStart,i);
       ctx.lineTo(w,i);
       ctx.stroke();
-      if(max%10!=0)
-         ctx.fillText(parseFloat(max/10*(9-j)).toFixed(1),16,i);
+      if(max%8!=0)
+         ctx.fillText(parseFloat(max/8*(j)).toFixed(1),0.15*w,i+2.5);
       else
-         ctx.fillText(max/10*(9-j),16,i);
+         ctx.fillText(max/8*(j),0.15*w,i+2.5);
       ctx.closePath();
       j++;
    } 
 }
 
-//Draw Bar Graph(rectangle)
-function drawRect(ctx)
+//Draw Histo Gram(rectangle)
+function drawHistoGram(ctx,w,h,arr,length,max)
 {
    var l = length;
-   var j =0;
-   var a1= 0.9*w;var a2=0.09*w;
-   var x = a1/length-5;
+   var j = 0;
+   var ghStart = 0.1*h;
+   var gwStart = 0.2*w;
+   var gWidth = 0.8*w;
+   var gHeight = 0.9*h;
+   var a1=0.8*w;
+   var a2=0.1*w;
+   var x=gWidth/length-0.01*w;
    for(var i=0;i<l;i++)
    {
       ctx.beginPath();
       ctx.fillStyle = getRandomColor();
-      ctx.fillRect((x*(i+0.75))+a2,a1,0.5*x,-(arr[Object.keys(arr)[i]]*a1/max));
-      ctx.fillText(arr[Object.keys(arr)[i]],x*(i+0.75)+a2,a1-(arr[Object.keys(arr)[i]]*a1/max)-5);
+      ctx.fillRect((gwStart+x*(i+0.75)),gHeight,0.5*x,-(arr[Object.keys(arr)[i]]*0.8*h/max));
+      ctx.fillText(arr[Object.keys(arr)[i]],x*(i+0.75)+gwStart,gHeight-(arr[Object.keys(arr)[i]]*0.8*h/max)-5);
       ctx.closePath();
       j++;
    }
