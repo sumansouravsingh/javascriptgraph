@@ -1,35 +1,30 @@
 <!DOCTYPE HTML>
 <html>
    <head>
-   <!--[if IE]><script src="excanvas.js"></script><![endif]-->
       <style>
-      *
-      {
-         margin:0 auto;
-         padding:0px;
-      }
-      a,a:visited
-      {
-         padding: 10px 10px 5px 10px;
-         color:white;
-         background: #bc3526;
-         cursor: pointer;
-         text-decoration: none;
-      }
-
-
+         *
+         {
+            margin:0 auto;
+            padding:0px;
+         }
+         a,a:visited
+         {
+            padding: 10px 10px 5px 10px;
+            color:white;
+            background: #bc3526;
+            cursor: pointer;
+            text-decoration: none;
+         }
       </style>
-      
    </head>
    <body>
-
       <div id="mycanvas" width="100%" height="100%"></div>
       <a onclick="donwloadimg(this)">Download Graph</a>
       <script src="graph.js">
       </script>
       <script type="text/javascript">
 
-         var arr = {text1:1800,text2:300,text3:1200,text4:350,text5:400,text6:180,text7:200,text8:600, text9:250, text10:250, text11:300, text12: 400, text13:370, text14:220};
+         var arr = {text1:1800,text2:300,text3:1200,text4:350};
          //Parameters: 1st-> arr, 2nd -> width of the bargraph(min 400, specify a greater width if number of elements in array are more),
          //3rd -> height of the bargraph(min 400, specify a greater height if the difference between smallest and largest number is very large),
          //4th -> number of rows
