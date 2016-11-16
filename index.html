@@ -8,33 +8,54 @@
          margin:0 auto;
          padding:0px;
       }
+      a,a:visited
+      {
+         padding: 10px 10px 5px 10px;
+         color:white;
+         background: #bc3526;
+         cursor: pointer;
+         text-decoration: none;
+      }
+
+
       </style>
       
    </head>
    <body>
 
       <div id="mycanvas" width="100%" height="100%"></div>
+      <a onclick="donwloadimg(this)">Download Graph</a>
       <script src="graph.js">
       </script>
       <script type="text/javascript">
+
          var arr = {text1:1800,text2:300,text3:1200,text4:350,text5:400,text6:180,text7:200,text8:600, text9:250, text10:250, text11:300, text12: 400, text13:370, text14:220};
          //Parameters: 1st-> arr, 2nd -> width of the bargraph(min 400, specify a greater width if number of elements in array are more),
          //3rd -> height of the bargraph(min 400, specify a greater height if the difference between smallest and largest number is very large),
          //4th -> number of rows
          //5th -> to display the y-axis lines(vertical lines) - 0:do not display, 1: display
-         histoGram(arr,400,400,12,0);
-
+         //6th -> Xaxis Text, 7th -> Y-axis Text
+         histoGram(arr,400,400,12,0,"X-axis Text","Y-axis Comparison");
+         /*
          //Parameters: 1st-> arr, 2nd -> width of the bargraph(min 400, specify a greater width if number of elements in array are more),
          //3rd -> height of the bargraph(min 400, specify a greater height if the difference between smallest and largest number is very large),
          //4th -> number of rows
          //5th -> to display the y-axis lines(vertical lines) - 0:do not display, 1: display
-         lineGraph(arr,400,400,12,0);
+         //6th -> Xaxis Text, 7th -> Y-axis Text
+         lineGraph(arr,400,400,12,0,"X-axis Text","Y-axis Comparison");
 
          //Parameters: 1st-> arr, 2nd -> height of the bargraph(min 400, specify a greater height if number of elements in array are more),
          //3rd -> width of the bargraph(min 400, specify a greater width if the difference between smallest and largest number is very large),
          //4th -> number of columns.
          //5th -> to display the y-axis lines(vertical lines) - 0:do not display, 1: display
-         barGraph(arr,400,400,12,0);
-      </script>   
+         //6th -> Xaxis Text, 7th -> Y-axis Text
+         barGraph(arr,400,400,12,0,"X-axis Text","Y-axis Comparison");
+         */
+         function donwloadimg(x)
+         {
+            x.href=document.getElementById('graph-canvas').toDataURL("image/jpg");
+            x.download = "linegraph.jpg";
+         }
+   </script>   
    </body>
 </html>

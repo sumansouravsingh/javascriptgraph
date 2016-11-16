@@ -3,7 +3,7 @@
 //lineGraph(arr,200,400,6,1);
 //pieChart(arr,400,400);
 //barGraph(arr,400,400,2);
-function histoGram(arr,w,h,nLines,isVerticalLines)
+function histoGram(arr,w,h,nLines,isVerticalLines,xText,yText)
 {
    if(w<400)
       w=400;
@@ -22,14 +22,17 @@ function histoGram(arr,w,h,nLines,isVerticalLines)
       sum+=arr[Object.keys(arr)[i]]; 
    }
    var cElem = document.createElement("canvas");
-   cElem.setAttribute("id","barGraph");
+   cElem.setAttribute("id","graph-canvas");
    cElem.setAttribute("height",h);
    cElem.setAttribute("width",w);
    document.getElementById('mycanvas').appendChild(cElem);
    var c = cElem;
    var ctx = c.getContext("2d");
+   ctx.fillStyle = "#ffffff";
+   ctx.fillRect(0,0,w,h);
    ctx.font = "7px Arial";
    ctx.strokeStyle="#cccccc";
+   ctx.fillStyle = "#000000";
    ctx.lineWidth=1;      
    drawXGraphLines(ctx,w,h,arr,length,max,nLines);
    drawYGraphLines(ctx,w,h,arr,length,max,isVerticalLines);
@@ -51,12 +54,12 @@ function histoGram(arr,w,h,nLines,isVerticalLines)
    ctx.save();
    ctx.translate(0,h);
    ctx.rotate(Math.PI/180*-90);
-   ctx.fillText("Y-Axis Text",gHeight/2,0.1*w);
+   ctx.fillText(yText,gHeight/2,0.1*w);
    ctx.restore();
-   ctx.fillText("X-Axis Text",gWidth/2,gHeight+30);
+   ctx.fillText(xText,gWidth/2,gHeight+30);
 }
 
-function barGraph(arr,w,h,nLines,isHorizontalLines)
+function barGraph(arr,w,h,nLines,isHorizontalLines,xText,yText)
 {
    if(w<400)
       w=400;
@@ -75,14 +78,17 @@ function barGraph(arr,w,h,nLines,isHorizontalLines)
       sum+=arr[Object.keys(arr)[i]]; 
    }
    var cElem = document.createElement("canvas");
-   cElem.setAttribute("id","barGraph");
+   cElem.setAttribute("id","graph-canvas");
    cElem.setAttribute("height",h);
    cElem.setAttribute("width",w);
    document.getElementById('mycanvas').appendChild(cElem);
    var c = cElem;
    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+   ctx.fillRect(0,0,w,h);
    ctx.font = "7px Arial";
    ctx.strokeStyle="#cccccc";
+   ctx.fillStyle = "#000000";
    ctx.lineWidth=1;      
    drawXBarGraphLines(ctx,w,h,arr,length,max,isHorizontalLines);
    drawYBarGraphLines(ctx,w,h,arr,length,max,nLines);
@@ -104,13 +110,13 @@ function barGraph(arr,w,h,nLines,isHorizontalLines)
    ctx.save();
    ctx.translate(0,h);
    ctx.rotate(Math.PI/180*-90);
-   ctx.fillText("Y-Axis Text",gHeight/2,0.1*w-10);
+   ctx.fillText(yText,gHeight/2,0.1*w-10);
    ctx.restore();
-   ctx.fillText("X-Axis Text",gWidth/2,0.9*h+30);
+   ctx.fillText(xText,gWidth/2,0.9*h+30);
 }
 
 
-function lineGraph(arr,w,h,nLines,isVerticalLines)
+function lineGraph(arr,w,h,nLines,isVerticalLines,xText,yText)
 {
    if(w<400)
       w=400;
@@ -130,14 +136,17 @@ function lineGraph(arr,w,h,nLines,isVerticalLines)
    }
    //Create Canvas Elem
    var cElem = document.createElement("canvas");
-   cElem.setAttribute("id","meli");
+   cElem.setAttribute("id","graph-canvas");
    cElem.setAttribute("height",h);
    cElem.setAttribute("width",w);
    document.getElementById('mycanvas').appendChild(cElem);
    var c = cElem;
    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+   ctx.fillRect(0,0,w,h);
    ctx.font = "7px Arial";
    ctx.strokeStyle="#cccccc";
+   ctx.fillStyle = "#000000";
    ctx.lineWidth=1;      
    drawXGraphLines(ctx,w,h,arr,length,max,nLines);
    drawYGraphLines(ctx,w,h,arr,length,max,isVerticalLines);
@@ -161,9 +170,9 @@ function lineGraph(arr,w,h,nLines,isVerticalLines)
    ctx.save();
    ctx.translate(0,h);           //To draw the text in vertical direction, first translate the canvas by its height
    ctx.rotate(Math.PI/180*-90);  //Now rotate the canvas by -90 deg.
-   ctx.fillText("Y-Axis Text",gHeight/2,0.1*w);  //Draw the Y-axis text in vertical direction. 
+   ctx.fillText(yText,gHeight/2,0.1*w);  //Draw the Y-axis text in vertical direction. 
    ctx.restore();                               //Restore the canvas to its saved state.
-   ctx.fillText("X-Axis Text",gWidth/2,h-10); //Draw the X-axis text.
+   ctx.fillText(xText,gWidth/2,h-10); //Draw the X-axis text.
 }
 
 function pieChart(arr,w,h)
@@ -181,7 +190,7 @@ function pieChart(arr,w,h)
       sum+=arr[Object.keys(arr)[i]]; 
    }
    var cElem = document.createElement("canvas");
-   cElem.setAttribute("id","mepi");
+   cElem.setAttribute("id","graph-canvas");
    cElem.setAttribute("height",h);
    cElem.setAttribute("width",w);
    document.getElementById('mycanvas').appendChild(cElem);
